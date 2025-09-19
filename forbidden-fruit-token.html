@@ -1138,6 +1138,17 @@
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
         </div>
         
+        <!-- ULTRA VISIBLE TEST -->
+        <div style="background: #ff0000 !important; color: #ffffff !important; padding: 50px !important; margin: 50px 0 !important; border: 10px solid #ffff00 !important; text-align: center !important; font-size: 30px !important; font-weight: bold !important; position: relative !important; z-index: 9999 !important;">
+            <div style="font-size: 40px !important; margin-bottom: 20px !important;">🚀 THIS IS A TEST - CAN YOU SEE THIS? 🚀</div>
+            <div style="font-size: 20px !important; margin: 20px 0 !important;">
+                If you can see this red box, the HTML is working!
+            </div>
+            <div style="font-size: 16px !important; color: #ffff00 !important;">
+                Time: <span id="test-time">Loading...</span>
+            </div>
+        </div>
+        
         <!-- Token Launch Countdown -->
         <div style="background: #ff0000 !important; color: #ffffff !important; padding: 30px !important; margin: 20px 0 !important; border: 5px solid #ffff00 !important; text-align: center !important; font-size: 20px !important; font-weight: bold !important;">
             <div style="font-size: 30px !important; margin-bottom: 20px !important;">🚀 TOKEN LAUNCH IN 🚀</div>
@@ -1922,6 +1933,15 @@
         function initCountdown() {
             // Set launch time to 7 hours from now
             launchTime = new Date().getTime() + (7 * 60 * 60 * 1000);
+            
+            // Update test time
+            const testTimeEl = document.getElementById('test-time');
+            if (testTimeEl) {
+                testTimeEl.textContent = new Date().toLocaleTimeString();
+                setInterval(() => {
+                    testTimeEl.textContent = new Date().toLocaleTimeString();
+                }, 1000);
+            }
             
             // Make sure countdown is visible
             const countdownElement = document.getElementById('launch-countdown');
