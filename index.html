@@ -893,7 +893,7 @@
             text-align: center;
             margin: 40px 0;
             padding: 40px;
-            background: linear-gradient(135deg, #000000, #111111, #000000);
+            background: #000000;
             border: 3px solid transparent;
             border-radius: 25px;
             position: relative;
@@ -1551,16 +1551,11 @@
         let countdownInterval;
         let countdownEndTime;
         
-        // Initialize countdown timer (fixed launch time)
+        // Initialize countdown timer (fixed launch time for all users)
         function initCountdown() {
-            // Set a fixed launch time - December 25, 2024 at 8:00 PM UTC
-            // You can change this to your desired launch time
-            countdownEndTime = new Date('2024-12-25T20:00:00Z').getTime();
-            
-            // If the launch time has passed, set it to 10 hours from now
-            if (countdownEndTime < new Date().getTime()) {
-                countdownEndTime = new Date().getTime() + (10 * 60 * 60 * 1000);
-            }
+            // Set fixed launch time: 2025-09-20 04:00:00 UTC
+            // This ensures all users worldwide see the same countdown
+            countdownEndTime = new Date('2025-09-20T04:00:00Z').getTime();
             
             updateCountdown();
             countdownInterval = setInterval(updateCountdown, 1000);
