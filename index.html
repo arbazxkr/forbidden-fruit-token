@@ -959,7 +959,7 @@
             text-align: center;
             margin: 40px 0;
             padding: 30px;
-            background: rgba(0, 0, 0, 0.9);
+            background: #000000;
             border: 2px solid transparent;
             border-radius: 20px;
             position: relative;
@@ -2150,13 +2150,7 @@
                 }, index * 2000);
             });
             
-            // Add scroll effects
-            window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                const parallax = document.querySelector('.ascii-banner');
-                const speed = scrolled * 0.5;
-                parallax.style.transform = `translateY(${speed}px)`;
-            });
+            // Scroll effects disabled - ASCII banner stays fixed
         });
         
         // Easter egg: Konami code
