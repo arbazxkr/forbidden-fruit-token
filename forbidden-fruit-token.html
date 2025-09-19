@@ -1139,27 +1139,32 @@
         </div>
         
         <!-- Token Launch Countdown -->
-        <div class="launch-countdown" id="launch-countdown" style="display: block !important; visibility: visible !important; opacity: 1 !important; background: red !important; color: white !important; padding: 20px !important; margin: 20px 0 !important; border: 3px solid yellow !important;">
-            <div class="countdown-title" style="font-size: 24px !important; color: white !important;">🚀 TOKEN LAUNCH IN 🚀</div>
-            <div class="countdown-timer" style="display: flex !important; gap: 10px !important; justify-content: center !important;">
-                <div class="countdown-unit" style="background: blue !important; padding: 10px !important; color: white !important;">
-                    <span id="countdown-hours">00</span>
-                    <span class="countdown-label">HOURS</span>
-                </div>
-                <div class="countdown-unit" style="background: blue !important; padding: 10px !important; color: white !important;">
-                    <span id="countdown-minutes">00</span>
-                    <span class="countdown-label">MINUTES</span>
-                </div>
-                <div class="countdown-unit" style="background: blue !important; padding: 10px !important; color: white !important;">
-                    <span id="countdown-seconds">00</span>
-                    <span class="countdown-label">SECONDS</span>
-                </div>
+        <div style="background: #ff0000 !important; color: #ffffff !important; padding: 30px !important; margin: 20px 0 !important; border: 5px solid #ffff00 !important; text-align: center !important; font-size: 20px !important; font-weight: bold !important;">
+            <div style="font-size: 30px !important; margin-bottom: 20px !important;">🚀 TOKEN LAUNCH IN 🚀</div>
+            <div style="font-size: 24px !important; margin: 20px 0 !important;">
+                <span id="countdown-hours" style="background: #0000ff !important; padding: 10px !important; margin: 5px !important; display: inline-block !important;">00</span>
+                <span style="margin: 0 10px !important;">HOURS</span>
+                <span id="countdown-minutes" style="background: #0000ff !important; padding: 10px !important; margin: 5px !important; display: inline-block !important;">00</span>
+                <span style="margin: 0 10px !important;">MINUTES</span>
+                <span id="countdown-seconds" style="background: #0000ff !important; padding: 10px !important; margin: 5px !important; display: inline-block !important;">00</span>
+                <span style="margin: 0 10px !important;">SECONDS</span>
             </div>
-            <div class="countdown-description" style="color: white !important; margin-top: 10px !important;">
+            <div style="margin-top: 20px !important; font-size: 16px !important;">
                 The revolution begins when the countdown reaches zero. Are you ready to join the forbidden?
             </div>
-            <div class="launch-warning" style="color: yellow !important; margin-top: 10px !important;">
+            <div style="color: #ffff00 !important; margin-top: 15px !important; font-size: 14px !important;">
                 ⚠️ WARNING: This countdown is not a drill. Prepare for launch! ⚠️
+            </div>
+        </div>
+        
+        <!-- SIMPLE COUNTDOWN TEST -->
+        <div style="background: #000000 !important; color: #00ff00 !important; padding: 20px !important; margin: 20px 0 !important; border: 2px solid #ff0000 !important; font-family: monospace !important; text-align: center !important;">
+            <div style="font-size: 24px !important; color: #ff0000 !important; margin-bottom: 10px !important;">🚀 TOKEN LAUNCH COUNTDOWN 🚀</div>
+            <div style="font-size: 18px !important; margin: 10px 0 !important;">
+                Time until launch: <span id="simple-countdown">Loading...</span>
+            </div>
+            <div style="font-size: 14px !important; color: #ffff00 !important;">
+                This should be visible right after the ASCII banner!
             </div>
         </div>
         
@@ -1951,19 +1956,23 @@
                 const hoursEl = document.getElementById('countdown-hours');
                 const minutesEl = document.getElementById('countdown-minutes');
                 const secondsEl = document.getElementById('countdown-seconds');
+                const simpleEl = document.getElementById('simple-countdown');
                 
                 if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
                 if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
                 if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
+                if (simpleEl) simpleEl.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             } else {
                 // Countdown finished
                 const hoursEl = document.getElementById('countdown-hours');
                 const minutesEl = document.getElementById('countdown-minutes');
                 const secondsEl = document.getElementById('countdown-seconds');
+                const simpleEl = document.getElementById('simple-countdown');
                 
                 if (hoursEl) hoursEl.textContent = '00';
                 if (minutesEl) minutesEl.textContent = '00';
                 if (secondsEl) secondsEl.textContent = '00';
+                if (simpleEl) simpleEl.textContent = 'LAUNCHED! 🚀';
                 
                 // Show launch message
                 const titleEl = document.querySelector('.countdown-title');
