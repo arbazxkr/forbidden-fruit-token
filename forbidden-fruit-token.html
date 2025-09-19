@@ -1139,26 +1139,26 @@
         </div>
         
         <!-- Token Launch Countdown -->
-        <div class="launch-countdown" id="launch-countdown">
-            <div class="countdown-title">🚀 TOKEN LAUNCH IN 🚀</div>
-            <div class="countdown-timer">
-                <div class="countdown-unit">
+        <div class="launch-countdown" id="launch-countdown" style="display: block !important; visibility: visible !important; opacity: 1 !important; background: red !important; color: white !important; padding: 20px !important; margin: 20px 0 !important; border: 3px solid yellow !important;">
+            <div class="countdown-title" style="font-size: 24px !important; color: white !important;">🚀 TOKEN LAUNCH IN 🚀</div>
+            <div class="countdown-timer" style="display: flex !important; gap: 10px !important; justify-content: center !important;">
+                <div class="countdown-unit" style="background: blue !important; padding: 10px !important; color: white !important;">
                     <span id="countdown-hours">00</span>
                     <span class="countdown-label">HOURS</span>
                 </div>
-                <div class="countdown-unit">
+                <div class="countdown-unit" style="background: blue !important; padding: 10px !important; color: white !important;">
                     <span id="countdown-minutes">00</span>
                     <span class="countdown-label">MINUTES</span>
                 </div>
-                <div class="countdown-unit">
+                <div class="countdown-unit" style="background: blue !important; padding: 10px !important; color: white !important;">
                     <span id="countdown-seconds">00</span>
                     <span class="countdown-label">SECONDS</span>
                 </div>
             </div>
-            <div class="countdown-description">
+            <div class="countdown-description" style="color: white !important; margin-top: 10px !important;">
                 The revolution begins when the countdown reaches zero. Are you ready to join the forbidden?
             </div>
-            <div class="launch-warning">
+            <div class="launch-warning" style="color: yellow !important; margin-top: 10px !important;">
                 ⚠️ WARNING: This countdown is not a drill. Prepare for launch! ⚠️
             </div>
         </div>
@@ -1923,12 +1923,17 @@
             if (countdownElement) {
                 countdownElement.style.display = 'block';
                 countdownElement.style.visibility = 'visible';
+                console.log('Countdown element found and made visible');
+            } else {
+                console.error('Countdown element NOT FOUND!');
+                alert('Countdown element not found!');
             }
             
             updateCountdown();
             countdownInterval = setInterval(updateCountdown, 1000);
             
             console.log('Countdown initialized. Launch time:', new Date(launchTime));
+            alert('Countdown initialized! Check console for details.');
         }
         
         function updateCountdown() {
