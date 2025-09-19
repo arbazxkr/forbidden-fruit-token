@@ -859,6 +859,9 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 0 30px rgba(255, 0, 64, 0.3);
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         
         .launch-countdown::before {
@@ -1914,32 +1917,57 @@
         function initCountdown() {
             // Set launch time to 7 hours from now
             launchTime = new Date().getTime() + (7 * 60 * 60 * 1000);
+            
+            // Make sure countdown is visible
+            const countdownElement = document.getElementById('launch-countdown');
+            if (countdownElement) {
+                countdownElement.style.display = 'block';
+                countdownElement.style.visibility = 'visible';
+            }
+            
             updateCountdown();
             countdownInterval = setInterval(updateCountdown, 1000);
+            
+            console.log('Countdown initialized. Launch time:', new Date(launchTime));
         }
         
         function updateCountdown() {
             const now = new Date().getTime();
             const timeLeft = launchTime - now;
             
+            // Debug logging
+            console.log('Time left:', timeLeft, 'Hours:', Math.floor(timeLeft / (1000 * 60 * 60)));
+            
             if (timeLeft > 0) {
                 const hours = Math.floor(timeLeft / (1000 * 60 * 60));
                 const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
                 
-                document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+                const hoursEl = document.getElementById('countdown-hours');
+                const minutesEl = document.getElementById('countdown-minutes');
+                const secondsEl = document.getElementById('countdown-seconds');
+                
+                if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
+                if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
+                if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
             } else {
                 // Countdown finished
-                document.getElementById('countdown-hours').textContent = '00';
-                document.getElementById('countdown-minutes').textContent = '00';
-                document.getElementById('countdown-seconds').textContent = '00';
+                const hoursEl = document.getElementById('countdown-hours');
+                const minutesEl = document.getElementById('countdown-minutes');
+                const secondsEl = document.getElementById('countdown-seconds');
+                
+                if (hoursEl) hoursEl.textContent = '00';
+                if (minutesEl) minutesEl.textContent = '00';
+                if (secondsEl) secondsEl.textContent = '00';
                 
                 // Show launch message
-                document.querySelector('.countdown-title').innerHTML = '🚀 TOKEN LAUNCHED! 🚀';
-                document.querySelector('.countdown-description').innerHTML = 'The revolution has begun! Welcome to the forbidden!';
-                document.querySelector('.launch-warning').innerHTML = '🎉 CONGRATULATIONS! You are now part of the revolution! 🎉';
+                const titleEl = document.querySelector('.countdown-title');
+                const descEl = document.querySelector('.countdown-description');
+                const warningEl = document.querySelector('.launch-warning');
+                
+                if (titleEl) titleEl.innerHTML = '🚀 TOKEN LAUNCHED! 🚀';
+                if (descEl) descEl.innerHTML = 'The revolution has begun! Welcome to the forbidden!';
+                if (warningEl) warningEl.innerHTML = '🎉 CONGRATULATIONS! You are now part of the revolution! 🎉';
                 
                 clearInterval(countdownInterval);
             }
