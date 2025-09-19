@@ -637,72 +637,6 @@
         
         
         
-        /* Cinematic Intro Overlay */
-        .intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #00ff00;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        .crt-scanlines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 0, 0.03) 2px,
-                rgba(0, 255, 0, 0.03) 4px
-            );
-            animation: scanlines 0.1s linear infinite;
-        }
-        
-        @keyframes scanlines {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(4px); }
-        }
-        
-        .boot-sequence {
-            text-align: center;
-            animation: boot-flicker 0.5s infinite;
-        }
-        
-        @keyframes boot-flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        
-        .access-granted {
-            font-size: 48px;
-            color: #ff0040;
-            text-shadow: 0 0 20px #ff0040;
-            animation: access-glow 2s ease-in-out infinite;
-            margin-top: 20px;
-        }
-        
-        @keyframes access-glow {
-            0%, 100% { 
-                text-shadow: 0 0 20px #ff0040, 0 0 40px #ff0040;
-                transform: scale(1);
-            }
-            50% { 
-                text-shadow: 0 0 30px #ff0040, 0 0 60px #ff0040;
-                transform: scale(1.05);
-            }
-        }
         
         /* 3D Particle Field */
         #particle-canvas {
@@ -1132,17 +1066,6 @@
     </style>
 </head>
 <body>
-    <!-- Cinematic Intro Overlay -->
-    <div class="intro-overlay" id="intro-overlay">
-        <div class="crt-scanlines"></div>
-        <div class="boot-sequence">
-            <div>INITIALIZING FORBIDDEN FRUIT SYSTEM...</div>
-            <div style="margin-top: 20px;">Loading chaos protocols...</div>
-            <div style="margin-top: 10px;">Bypassing mainstream crypto...</div>
-            <div style="margin-top: 10px;">Activating based energy...</div>
-            <div class="access-granted">ACCESS GRANTED</div>
-        </div>
-    </div>
     
     <!-- 3D Particle Canvas -->
     <canvas id="particle-canvas"></canvas>
@@ -1661,18 +1584,6 @@
         }
         
         
-        // Cinematic Intro Sequence
-        function startCinematicIntro() {
-            const introOverlay = document.getElementById('intro-overlay');
-            
-            setTimeout(() => {
-                introOverlay.style.opacity = '0';
-                introOverlay.style.transition = 'opacity 2s ease-out';
-                setTimeout(() => {
-                    introOverlay.style.display = 'none';
-                }, 2000);
-            }, 5000);
-        }
         
         // Enhanced Sound System
         let audioContext;
@@ -2116,9 +2027,6 @@
         
         // Initialize effects
         document.addEventListener('DOMContentLoaded', function() {
-            // Start cinematic intro
-            startCinematicIntro();
-            
             // Initialize countdown timer
             initCountdown();
             
