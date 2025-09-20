@@ -888,6 +888,52 @@
             transition: width 0.5s ease;
         }
         
+        /* Contract Address Container */
+        .contract-address-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.9) 0%, 
+                rgba(10, 10, 15, 0.95) 50%, 
+                rgba(0, 0, 0, 0.9) 100%);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.7),
+                0 4px 15px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(0, 255, 0, 0.1);
+        }
+        
+        .contract-address {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: #00ff00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        
+        .contract-label {
+            color: #ff0040;
+            font-weight: bold;
+            margin-right: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .contract-value {
+            color: #00ff00;
+            font-weight: bold;
+            word-break: break-all;
+            background: rgba(0, 255, 0, 0.1);
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
         
         
         @media (max-width: 768px) {
@@ -952,6 +998,13 @@
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
         </div>
         
+        <!-- Contract Address Container -->
+        <div class="contract-address-container">
+            <div class="contract-address">
+                <span class="contract-label">CONTRACT ADDRESS:</span>
+                <span class="contract-value">5Yp85vB4m1zyhDvsKzmgLU2BKkimSfzUXUQcbjYC5U89</span>
+            </div>
+        </div>
         
         <div class="prompt">
             <span class="command">$ whoami</span>
