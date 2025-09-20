@@ -932,6 +932,41 @@
             border: 1px solid rgba(0, 255, 0, 0.3);
             display: inline-block;
             margin-top: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .contract-value:hover {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: rgba(0, 255, 0, 0.5);
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .copy-hint {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #ff6600;
+            margin-top: 8px;
+            opacity: 0.7;
+            animation: pulse-hint 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-hint {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        .copy-success {
+            color: #00ff00 !important;
+            animation: copy-success 1s ease-in-out;
+        }
+        
+        @keyframes copy-success {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); color: #00ff00; }
+            100% { transform: scale(1); }
         }
         
         
@@ -1002,8 +1037,9 @@
         <div class="contract-address-container">
             <div class="contract-address">
                 <span class="contract-label">CONTRACT ADDRESS:</span>
-                <span class="contract-value">5Yp85vB4m1zyhDvsKzmgLU2BKkimSfzUXUQcbjYC5U89</span>
+                <span class="contract-value" id="contract-address" onclick="copyToClipboard()">5Yp85vB4m1zyhDvsKzmgLU2BKkimSfzUXUQcbjYC5U89</span>
             </div>
+            <div class="copy-hint" id="copy-hint">Click to copy</div>
         </div>
         
         <div class="prompt">
@@ -1242,6 +1278,76 @@
         // 3D Particle Field with Three.js
         let scene, camera, renderer, particles;
         let mouseX = 0, mouseY = 0;
+        
+        // Copy to Clipboard Function
+        function copyToClipboard() {
+            const contractAddress = '5Yp85vB4m1zyhDvsKzmgLU2BKkimSfzUXUQcbjYC5U89';
+            const contractElement = document.getElementById('contract-address');
+            const copyHint = document.getElementById('copy-hint');
+            
+            // Try to use the modern clipboard API first
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(contractAddress).then(() => {
+                    showCopySuccess(contractElement, copyHint);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(contractAddress, contractElement, copyHint);
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyTextToClipboard(contractAddress, contractElement, copyHint);
+            }
+        }
+        
+        function fallbackCopyTextToClipboard(text, contractElement, copyHint) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess(contractElement, copyHint);
+                } else {
+                    showCopyError(copyHint);
+                }
+            } catch (err) {
+                showCopyError(copyHint);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showCopySuccess(contractElement, copyHint) {
+            // Add success animation
+            contractElement.classList.add('copy-success');
+            copyHint.textContent = '✓ COPIED TO CLIPBOARD!';
+            copyHint.style.color = '#00ff00';
+            
+            // Play success sound
+            playClickSound();
+            
+            // Reset after 2 seconds
+            setTimeout(() => {
+                contractElement.classList.remove('copy-success');
+                copyHint.textContent = 'Click to copy';
+                copyHint.style.color = '#ff6600';
+            }, 2000);
+        }
+        
+        function showCopyError(copyHint) {
+            copyHint.textContent = '❌ Copy failed - try selecting manually';
+            copyHint.style.color = '#ff0040';
+            
+            setTimeout(() => {
+                copyHint.textContent = 'Click to copy';
+                copyHint.style.color = '#ff6600';
+            }, 3000);
+        }
         
         
         function init3DParticles() {
