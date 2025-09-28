@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ariba - Beautiful & Precious</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Dancing Script', cursive;
+            background: #000000;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+            z-index: 20;
+        }
+
+        .subtitle {
+            font-size: 2.5rem;
+            color: #f0f0f0;
+            text-align: center;
+            opacity: 0.9;
+            z-index: 20;
+            font-weight: 300;
+        }
+
+        /* Arrow Game Section - Background */
+        .arrow-game-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .arrow-game-bg svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Heart Animation Background */
+        #heartCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1>Ariba</h1>
+            <div class="subtitle">You are beautiful and precious beyond words</div>
+        </div>
+    </div>
+
+    <!-- Arrow Game Background -->
+    <div class="arrow-game-bg">
+        <svg id="game" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" overflow="visible">
+            <defs>
+                <g id="arrow">
+                    <line x2="60" fill="none" stroke="#888" stroke-width="2" />
+                    <polygon fill="#888" points="64 0 58 2 56 0 58 -2" />
+                    <polygon fill="#ff69b4" points="2 -3 -4 -3 -1 0 -4 3 2 3 5 0" />
+                </g>
+            </defs>
+
+            <!-- Static initial elements -->
+            <g id="target">
+                <circle cx="75%" cy="50%" r="40" fill="#FFF"/>
+                <circle cx="75%" cy="50%" r="30" fill="#ff69b4"/>
+                <circle cx="75%" cy="50%" r="20" fill="#FFF"/>
+                <circle cx="75%" cy="50%" r="10" fill="#ff69b4"/>
+            </g>
+            <g id="bow" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" pointer-events="none">
+                <polyline fill="none" stroke="#ddd" stroke-linecap="round" points="10%,45% 10%,50% 10%,55%"/>
+                <path fill="none" stroke="#ff69b4" stroke-width="3" stroke-linecap="round" d="M10%,55% c0-10.1,12-25.1,12-50s-12-39.9-12-50"/>
+            </g>
+            <g class="arrow-angle"><use x="10%" y="50%" xlink:href="#arrow"/></g>
+            <g class="arrows" pointer-events="none"></g>
+
+            <!-- Ariba Messages -->
+            <g class="ariba-beautiful" fill="#ff69b4" opacity="0" transform="translate(300, 100)">
+                <!-- A -->
+                <path d="M0 0 L0 80 L30 80 L30 70 L10 70 L10 0 Z"/>
+                <!-- R -->
+                <path d="M50 0 L50 80 L80 80 L80 70 L60 70 L60 40 L80 40 L80 30 L60 30 L60 10 L80 10 L80 0 Z"/>
+                <!-- I -->
+                <path d="M100 0 L100 80 L120 80 L120 0 L110 0 L110 80 L110 0 Z"/>
+                <!-- B -->
+                <path d="M140 0 L140 80 L170 80 L170 70 L150 70 L150 40 L170 40 L170 30 L150 30 L150 10 L170 10 L170 0 Z"/>
+                <!-- A -->
+                <path d="M190 0 L190 80 L220 80 L220 70 L200 70 L200 0 Z"/>
+            </g>
+
+            <g class="precious" fill="#ffd700" opacity="0" transform="translate(180, -80) rotate(12)">
+                <path d="M383 114L385 195 407 191 406 160 422 155 418 191 436 189 444 112 423 119 422 141 407 146 400 113"/>
+                <path d="M449 185L453 113 477 112 464 186"/>
+                <path d="M486 113L484 130 506 130 481 188 506 187 520 131 540 135 545 119"/>
+                <path d="M526,195l5-20l22,5l-9,16L526,195z M558,164l32-44l-35-9l-19,51L558,164z"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Heart Animation Background -->
+    <canvas id="heartCanvas"></canvas>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+    <script src="//s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin.min.js"></script>
+
+    <!-- Arrow Game Script -->
+    <script>
+        var svg = document.querySelector("svg");
+        var cursor = svg.createSVGPoint();
+        var arrows = document.querySelector(".arrows");
+        var randomAngle = 0;
+
+        // Calculate positions based on SVG element size
+        function getPositions() {
+            const svgRect = svg.getBoundingClientRect();
+            return {
+                target: {
+                    x: svgRect.width * 0.75,
+                    y: svgRect.height * 0.5
+                },
+                pivot: {
+                    x: svgRect.width * 0.1,
+                    y: svgRect.height * 0.5
+                },
+                lineSegment: {
+                    x1: svgRect.width * 0.75 - 50,
+                    y1: svgRect.height * 0.5 + 20,
+                    x2: svgRect.width * 0.75 + 50,
+                    y2: svgRect.height * 0.5 - 20
+                }
+            };
+        }
+
+        let positions = getPositions();
+        let target = positions.target;
+        let lineSegment = positions.lineSegment;
+        let pivot = positions.pivot;
+
+        // Keep elements at fixed percentage positions for stability
+        function updateElements() {
+            // Elements stay at percentage positions, no need to update coordinates
+            // This prevents them from being moved off-screen
+        }
+
+        // Initialize after DOM loads
+        function initializeGame() {
+            // Recalculate positions after SVG is rendered
+            positions = getPositions();
+            target = positions.target;
+            lineSegment = positions.lineSegment;
+            pivot = positions.pivot;
+
+            updateElements();
+            aim({ clientX: pivot.x + 100, clientY: pivot.y });
+        }
+
+        // Run initialization when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeGame);
+        } else {
+            initializeGame();
+        }
+
+        window.addEventListener("mousedown", draw);
+
+        // Update positions on window resize
+        window.addEventListener('resize', function() {
+            positions = getPositions();
+            target = positions.target;
+            lineSegment = positions.lineSegment;
+            pivot = positions.pivot;
+        });
+
+        function draw(e) {
+            randomAngle = Math.random() * Math.PI * 0.03 - 0.015;
+            TweenMax.to(".arrow-angle use", 0.3, { opacity: 1});
+            window.addEventListener("mousemove", aim);
+            window.addEventListener("mouseup", loose);
+            aim(e);
+        }
+
+        function aim(e) {
+            var point = getMouseSVG(e);
+            point.x = Math.min(point.x, pivot.x - 7);
+            point.y = Math.max(point.y, pivot.y + 7);
+            var dx = point.x - pivot.x;
+            var dy = point.y - pivot.y;
+            var angle = Math.atan2(dy, dx) + randomAngle;
+            var bowAngle = angle - Math.PI;
+            var distance = Math.min(Math.sqrt(dx * dx + dy * dy), 50);
+            var scale = Math.min(Math.max(distance / 30, 1), 2);
+            TweenMax.to("#bow", 0.3, {
+                scaleX: scale,
+                rotation: bowAngle + "rad",
+                transformOrigin: "right center"
+            });
+            TweenMax.to(".arrow-angle", 0.3, {
+                rotation: bowAngle + "rad",
+                svgOrigin: `${pivot.x} ${pivot.y}`
+            });
+            TweenMax.to(".arrow-angle use", 0.3, {
+                x: pivot.x - distance * 0.5,
+                y: pivot.y
+            });
+
+        }
+
+        function loose() {
+            window.removeEventListener("mousemove", aim);
+            window.removeEventListener("mouseup", loose);
+
+            TweenMax.to("#bow", 0.4, {
+                scaleX: 1,
+                transformOrigin: "right center",
+                ease: Elastic.easeOut
+            });
+            TweenMax.to("#bow polyline", 0.4, {
+                attr: {
+                    points: "88,200 88,250 88,300"
+                },
+                ease: Elastic.easeOut
+            });
+
+            var newArrow = document.createElementNS("http://www.w3.org/2000/svg", "use");
+            newArrow.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#arrow");
+            arrows.appendChild(newArrow);
+
+            // Always animate arrow to target center in SVG coordinates
+            TweenMax.fromTo([newArrow], 0.8, {
+                x: pivot.x,  // Start at bow position (192)
+                y: pivot.y,  // Start at center height (540)
+                rotation: 0
+            }, {
+                x: target.x,  // End at target center (1440)
+                y: target.y,  // End at center height (540)
+                rotation: 45, // Rotate arrow to look like it's hitting target
+                onComplete: onHit,
+                ease: Power2.easeOut
+            });
+
+            TweenMax.set(".arrow-angle use", {
+                opacity: 0
+            });
+        }
+
+        function onHit() {
+            // Always show the beautiful message when arrow hits target
+            showMessage(".precious");
+        }
+
+        function showMessage(selector) {
+            TweenMax.killTweensOf(selector);
+            TweenMax.killChildTweensOf(selector);
+            TweenMax.set(selector, {
+                autoAlpha: 1
+            });
+            TweenMax.staggerFromTo(
+                selector + " path",
+                0.5,
+                {
+                    rotation: -5,
+                    scale: 0,
+                    transformOrigin: "center"
+                },
+                {
+                    scale: 1,
+                    ease: Back.easeOut
+                },
+                0.05
+            );
+            TweenMax.staggerTo(
+                selector + " path",
+                0.3,
+                {
+                    delay: 2,
+                    rotation: 20,
+                    scale: 0,
+                    ease: Back.easeIn
+                },
+                0.03
+            );
+        }
+
+        function getMouseSVG(e) {
+            // Convert screen coordinates to SVG element coordinates
+            var rect = svg.getBoundingClientRect();
+            cursor.x = e.clientX - rect.left;
+            cursor.y = e.clientY - rect.top;
+            return cursor;
+        }
+
+        function getIntersection(segment1, segment2) {
+            var dx1 = segment1.x2 - segment1.x1;
+            var dy1 = segment1.y2 - segment1.y1;
+            var dx2 = segment2.x2 - segment2.x1;
+            var dy2 = segment2.y2 - segment2.y1;
+            var cx = segment1.x1 - segment2.x1;
+            var cy = segment1.y1 - segment2.y1;
+            var denominator = dy2 * dx1 - dx2 * dy1;
+            if (denominator == 0) {
+                return null;
+            }
+            var ua = (dx2 * cy - dy2 * cx) / denominator;
+            var ub = (dx1 * cy - dy1 * cx) / denominator;
+            return {
+                x: segment1.x1 + ua * dx1,
+                y: segment1.y1 + ua * dy1,
+                segment1: ua >= 0 && ua <= 1,
+                segment2: ub >= 0 && ub <= 1
+            };
+        }
+    </script>
+
+    <!-- Heart Animation Script -->
+    <script>
+        var b = document.body;
+        var c = document.getElementById('heartCanvas');
+        var a = c.getContext('2d');
+
+        e = [];
+        h = [];
+        O = c.width = window.innerWidth;
+        Q = c.height = window.innerHeight;
+
+        v = 32;
+        M = Math;
+        R = M.random;
+        C = M.cos;
+        Y = 6.3;
+
+        for (i = 0; i < Y; i += 0.2) {
+            h.push([
+                O/2 + 180*M.pow(M.sin(i), 3),
+                Q/2 + 10 * (-(15*C(i) - 5*C(2*i) - 2*C(3*i) - C(4*i)))
+            ]);
+        }
+
+        i = 0;
+        while (i < v) {
+            x = R() * O;
+            y = R() * Q;
+
+            H = i/v * 80 + 280;
+            S = R() * 40 + 60;
+            B = R() * 60 + 20;
+
+            f = [];
+
+            k = 0;
+            while (k < v) {
+                f[k++] = {
+                    x: x,
+                    y: y,
+                    X: 0,
+                    Y: 0,
+                    R: (1 - k/v) + 1,
+                    S: R() + 1,
+                    q: ~~(R() * v),
+                    D: i%2*2-1,
+                    F: R() * 0.2 + 0.7,
+                    f: "hsla("+~~H+","+~~S+"%,"+~~B+"%,.1)"
+                };
+            }
+
+            e[i++] = f;
+        }
+
+        function render(_) {
+            a.fillStyle = _.f;
+            a.beginPath();
+            a.arc(_.x, _.y, _.R, 0, Y, 1);
+            a.closePath();
+            a.fill();
+        }
+
+        function loop() {
+            a.fillStyle = "rgba(0,0,0,.2)";
+            a.fillRect(0,0,O,Q);
+
+            i = v;
+            while (i--) {
+                f = e[i];
+                u = f[0];
+                q = h[u.q];
+                D = u.x - q[0];
+                E = u.y - q[1];
+                G = M.sqrt((D * D) + (E * E));
+
+                if (G < 10) {
+                    if (R() > 0.95) {
+                        u.q = ~~(R() * v);
+                    } else {
+                        if (R() > 0.99) u.D *= -1;
+                        u.q += u.D;
+                        u.q %= v;
+                        if (u.q < 0) u.q += v;
+                    }
+                }
+
+                u.X += -D / G * u.S;
+                u.Y += -E / G * u.S;
+
+                u.x += u.X;
+                u.y += u.Y;
+
+                render(u);
+
+                u.X *= u.F;
+                u.Y *= u.F;
+
+                k = 0;
+                while (k < v-1) {
+                    T = f[k];
+                    N = f[++k];
+
+                    N.x -= (N.x - T.x) * 0.7;
+                    N.y -= (N.y - T.y) * 0.7;
+
+                    render(N);
+                }
+            }
+        }
+
+        setInterval(loop, 16);
+
+        // Resize handler
+        window.addEventListener('resize', function() {
+            O = c.width = window.innerWidth;
+            Q = c.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
+
