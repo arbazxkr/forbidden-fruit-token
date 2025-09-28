@@ -1,0 +1,35 @@
+.tribute-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.tribute-title {
+  font-size: 4rem;
+  color: #fff;
+  font-family: 'Dancing Script', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+.tribute-subtitle {
+  font-size: 2.5rem;
+  color: #f0f0f0;
+  font-family: 'Dancing Script', cursive;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .tribute-title {
+    font-size: 2.5rem;
+  }
+
+  .tribute-subtitle {
+    font-size: 1.8rem;
+  }
+}

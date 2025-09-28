@@ -1,0 +1,12 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background: #000000;
+  font-family: 'Dancing Script', cursive;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
